@@ -1,16 +1,16 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*   get_next_line_bonus.c                              :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: adenhez <adenhez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/15 14:00:26 by adenhez           #+#    #+#             */
-/*   Updated: 2020/11/26 14:23:35 by adenhez          ###   ########.fr       */
+/*   Updated: 2020/11/26 14:25:51 by adenhez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "get_next_line.h"
+#include "get_next_line_bonus.h"
 
 int	process(char **str, char **line)
 {
@@ -65,28 +65,28 @@ int	output(int byte, char **str, char **line)
 int	get_next_line(int fd, char **line)
 {
 	int			byte;
-	static char	*str;
+	static char	*store[FD_MAX];
 	char		*temp;
 	char		buf[BUFFER_SIZE + 1];
 
-	if (fd < 0 || line == NULL || BUFFER_SIZE <= 0)
+	if (fd < 0 || fd > FD_MAX || line == NULL || BUFFER_SIZE <= 0)
 		return (-1);
 	while ((byte = read(fd, buf, BUFFER_SIZE)) > 0)
 	{
 		buf[byte] = 0;
-		if (str == NULL)
-			str = ft_strdup(buf);
+		if (store[fd] == NULL)
+			store[fd] = ft_strdup(buf);
 		else
 		{
-			temp = ft_strjoin(str, buf);
+			temp = ft_strjoin(store[fd], buf);
 			if (temp == NULL)
 				return (-1);
-			str = temp;
+			store[fd] = temp;
 		}
-		if (ft_strchr(str, '\n'))
+		if (ft_strchr(store[fd], '\n'))
 			break ;
 	}
 	if (byte < 0)
 		return (-1);
-	return (output(byte, &str, line));
+	return (output(byte, &(store[fd]), line));
 }
