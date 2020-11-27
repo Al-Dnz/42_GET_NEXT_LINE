@@ -6,7 +6,7 @@
 /*   By: adenhez <adenhez@student.42.fr>            +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2020/11/15 14:00:26 by adenhez           #+#    #+#             */
-/*   Updated: 2020/11/26 14:23:35 by adenhez          ###   ########.fr       */
+/*   Updated: 2020/11/26 16:46:13 by adenhez          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,6 @@ int	process(char **str, char **line)
 	ptr = ft_strchr(*str, '\n');
 	if (ptr != NULL)
 	{
-		*ptr = 0;
 		*line = ft_strsub(*str, 0, len);
 		temp = ft_strdup(++ptr);
 		if (temp == NULL)
